@@ -1,0 +1,138 @@
+duckdb:
+  databaseFile: "duckdb.db"
+  extensions:
+    - httpfs # HTTP file system support
+    # - parquet # Parquet file format support
+    # - json # JSON functions and operators
+    # - sqlite # SQLite compatibility
+    # - postgres # PostgreSQL compatibility
+    # - mysql # MySQL compatibility
+    # - excel # Excel file support
+    # - arrow # Apache Arrow support
+    # - aws # Amazon S3 support
+    # - iceberg # Apache Iceberg support
+    # - fts # Full-text search support
+    # - tpcds # TPC-DS benchmark support
+    # - tpch # TPC-H benchmark support
+    # - spatial # Geospatial functions
+    # - visualizer # Query visualization  
+  config:
+    memory_limit: "1GB" # Maximum memory usage for the database
+    threads: 4 # Number of threads to use for parallel processing
+    custom: {} 
+
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  storageClass: ""
+
+image:
+  repository: ghcr.io/beslovas/duckdb-ui
+  tag: "1.3.2"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: false
+  annotations: {}
+  name: ""
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 80
+  annotations: {}
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: duckdb-ui.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+persistence:
+  enabled: true
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  size: 10Gi
+  path: /duckdb/data
+
+configMap:
+  additionalConfig: |
+
+initContainers: []
+
+sidecars: []
+
+podAnnotations: {}
+
+podLabels: {}
+
+replicaCount: 1
+
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+  successThreshold: 1
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 3
+  successThreshold: 1
+
+startupProbe:
+  enabled: false
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 30
+  successThreshold: 1
+
+  # Example:
+  # env:
+  #   DUCKDB_LOG_LEVEL: "INFO"
+  #   DUCKDB_TEMP_DIR: "/tmp"
+  #   CUSTOM_VAR: "custom_value"
+  #   S3_ENDPOINT: "minio.monitoring:9000"
+  #   S3_USE_SSL: "false"
+  #   S3_URL_STYLE: "path"
+  #   S3_REGION: "us-east-1"
+  #   S3_ACCESS_KEY_ID: "your-access-key"
+  #   S3_SECRET_ACCESS_KEY: "your-secret-key"
+env: {}
+
+auth:
+  enabled: false
+  username: "admin"
+  password: "changeme"
