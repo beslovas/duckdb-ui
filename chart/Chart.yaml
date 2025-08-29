@@ -1,0 +1,45 @@
+apiVersion: v2
+name: duckdb
+description: A Helm chart for DuckDB with UI support, configurable extensions, and persistent storage
+type: application
+version: 0.2.0
+appVersion: "1.3.2"
+keywords:
+  - duckdb
+  - database
+  - analytics
+  - sql
+home: https://duckdb.org/
+sources:
+  - https://github.com/beslovas/duckdb
+  - https://github.com/duckdb/duckdb
+maintainers:
+  - name: beslovas
+    email: beslovas@users.noreply.github.com
+annotations:
+  artifacthub.io/changes: |
+    - Initial release with DuckDB UI support
+    - Configurable extensions via ConfigMap
+    - Persistent storage support
+    - Configurable duckdbrc settings
+  artifacthub.io/containsSecurityUpdates: "false"
+  artifacthub.io/dependencies: |
+    - name: kubernetes
+      version: ">=1.19.0-0"
+  artifacthub.io/images: |
+    - name: duckdb
+      image: ghcr.io/beslovas/duckdb:1.3.2
+  artifacthub.io/install: |
+    ```bash
+    helm repo add beslovas https://beslovas.github.io/duckdb
+    helm install my-duckdb beslovas/duckdb
+    ```
+  artifacthub.io/operator: "false"
+  artifacthub.io/prerelease: "false"
+  artifacthub.io/screenshots: |
+    - name: DuckDB UI
+      url: https://duckdb.org/images/duckdb_logo.png
+  artifacthub.io/signKey: |
+    -----BEGIN PGP PUBLIC KEY BLOCK-----
+    # Your PGP key here
+    -----END PGP PUBLIC KEY BLOCK-----

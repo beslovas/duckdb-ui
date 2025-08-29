@@ -1,0 +1,505 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "DuckDB Helm Chart Values Schema",
+  "description": "Configuration values for the DuckDB Helm chart",
+  "properties": {
+    "global": {
+      "type": "object",
+      "description": "Global configuration options",
+      "properties": {
+        "imageRegistry": {
+          "type": "string",
+          "description": "Global Docker image registry override"
+        },
+        "imagePullSecrets": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "description": "Global image pull secrets"
+        },
+        "storageClass": {
+          "type": "string",
+          "description": "Global storage class override"
+        }
+      }
+    },
+    "image": {
+      "type": "object",
+      "description": "Docker image configuration",
+      "properties": {
+        "repository": {
+          "type": "string",
+          "description": "Docker image repository",
+          "default": "your-registry/duckdb"
+        },
+        "tag": {
+          "type": "string",
+          "description": "Docker image tag",
+          "default": "1.3.2"
+        },
+        "pullPolicy": {
+          "type": "string",
+          "enum": ["IfNotPresent", "Always", "Never"],
+          "description": "Docker image pull policy",
+          "default": "IfNotPresent"
+        }
+      },
+      "required": ["repository"]
+    },
+    "imagePullSecrets": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Image pull secrets for private registries"
+    },
+    "nameOverride": {
+      "type": "string",
+      "description": "Override the chart name"
+    },
+    "fullnameOverride": {
+      "type": "string",
+      "description": "Override the full app name"
+    },
+    "serviceAccount": {
+      "type": "object",
+      "description": "Service account configuration",
+      "properties": {
+        "create": {
+          "type": "boolean",
+          "description": "Create a new service account",
+          "default": true
+        },
+        "annotations": {
+          "type": "object",
+          "description": "Service account annotations"
+        },
+        "name": {
+          "type": "string",
+          "description": "Service account name"
+        }
+      }
+    },
+    "podSecurityContext": {
+      "type": "object",
+      "description": "Pod security context configuration"
+    },
+    "securityContext": {
+      "type": "object",
+      "description": "Container security context configuration"
+    },
+    "service": {
+      "type": "object",
+      "description": "Service configuration",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["ClusterIP", "NodePort", "LoadBalancer"],
+          "description": "Kubernetes service type",
+          "default": "ClusterIP"
+        },
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535,
+          "description": "Service port",
+          "default": 4213
+        },
+        "annotations": {
+          "type": "object",
+          "description": "Service annotations"
+        }
+      }
+    },
+    "ingress": {
+      "type": "object",
+      "description": "Ingress configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable ingress",
+          "default": false
+        },
+        "className": {
+          "type": "string",
+          "description": "Ingress class name"
+        },
+        "annotations": {
+          "type": "object",
+          "description": "Ingress annotations"
+        },
+        "hosts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "host": {
+                "type": "string",
+                "description": "Ingress host"
+              },
+              "paths": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "string",
+                      "description": "Ingress path"
+                    },
+                    "pathType": {
+                      "type": "string",
+                      "enum": ["ImplementationSpecific", "Exact", "Prefix"],
+                      "description": "Ingress path type"
+                    }
+                  },
+                  "required": ["path"]
+                }
+              }
+            },
+            "required": ["host", "paths"]
+          }
+        },
+        "tls": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "secretName": {
+                "type": "string",
+                "description": "TLS secret name"
+              },
+              "hosts": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "resources": {
+      "type": "object",
+      "description": "Resource limits and requests",
+      "properties": {
+        "limits": {
+          "type": "object",
+          "properties": {
+            "cpu": {
+              "type": "string",
+              "pattern": "^[0-9]+m?$",
+              "description": "CPU limit (e.g., '1000m' or '1')"
+            },
+            "memory": {
+              "type": "string",
+              "pattern": "^[0-9]+[KMGTPEZYkmgtpezy]i?$",
+              "description": "Memory limit (e.g., '1Gi', '1000Mi')"
+            }
+          }
+        },
+        "requests": {
+          "type": "object",
+          "properties": {
+            "cpu": {
+              "type": "string",
+              "pattern": "^[0-9]+m?$",
+              "description": "CPU request (e.g., '100m' or '0.1')"
+            },
+            "memory": {
+              "type": "string",
+              "pattern": "^[0-9]+[KMGTPEZYkmgtpezy]i?$",
+              "description": "Memory request (e.g., '128Mi', '1Gi')"
+            }
+          }
+        }
+      }
+    },
+    "nodeSelector": {
+      "type": "object",
+      "description": "Node selector labels"
+    },
+    "tolerations": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Pod tolerations"
+    },
+    "affinity": {
+      "type": "object",
+      "description": "Pod affinity and anti-affinity rules"
+    },
+    "persistence": {
+      "type": "object",
+      "description": "Persistent volume configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable persistent storage",
+          "default": true
+        },
+        "storageClass": {
+          "type": "string",
+          "description": "Storage class name"
+        },
+        "accessMode": {
+          "type": "string",
+          "enum": ["ReadWriteOnce", "ReadOnlyMany", "ReadWriteMany"],
+          "description": "Access mode for the volume",
+          "default": "ReadWriteOnce"
+        },
+        "size": {
+          "type": "string",
+          "pattern": "^[0-9]+[KMGTPEZYkmgtpezy]i?$",
+          "description": "Storage size (e.g., '10Gi', '100Mi')",
+          "default": "10Gi"
+        },
+        "path": {
+          "type": "string",
+          "description": "Mount path for data",
+          "default": "/duckdb/data"
+        }
+      }
+    },
+    "duckdb": {
+      "type": "object",
+      "description": "DuckDB specific configuration",
+      "properties": {
+        "databaseFile": {
+          "type": "string",
+          "description": "Database file name",
+          "default": "duckdb.db"
+        },
+        "extensions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "httpfs", "parquet", "json", "sqlite", "postgres", "mysql", 
+              "excel", "arrow", "fts", "icu", "spatial", "visualization"
+            ]
+          },
+          "description": "List of DuckDB extensions to install and load",
+          "default": ["httpfs", "parquet", "json", "sqlite"]
+        },
+        "config": {
+          "type": "object",
+          "description": "DuckDB configuration options",
+          "properties": {
+            "memory_limit": {
+              "type": "string",
+              "pattern": "^[0-9]+[KMGTPEZYkmgtpezy]i?[Bb]?$",
+              "description": "Memory limit for DuckDB (e.g., '1GB', '1GiB', '1000MB', '1024MiB')",
+              "default": "1GB"
+            },
+            "threads": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 64,
+              "description": "Number of threads",
+              "default": 4
+            },
+            "custom": {
+              "type": "object",
+              "description": "Custom DuckDB configuration settings"
+            }
+          }
+        }
+      }
+    },
+    "configMap": {
+      "type": "object",
+      "description": "ConfigMap configuration",
+      "properties": {
+        "additionalConfig": {
+          "type": "string",
+          "description": "Additional DuckDB configuration to append to duckdbrc"
+        }
+      }
+    },
+    "initContainers": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Init containers configuration"
+    },
+    "sidecars": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Sidecar containers configuration"
+    },
+    "podAnnotations": {
+      "type": "object",
+      "description": "Pod annotations"
+    },
+    "podLabels": {
+      "type": "object",
+      "description": "Pod labels"
+    },
+    "replicaCount": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10,
+      "description": "Number of replicas",
+      "default": 1
+    },
+    "livenessProbe": {
+      "type": "object",
+      "description": "Liveness probe configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable liveness probe",
+          "default": true
+        },
+        "initialDelaySeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Initial delay before first probe",
+          "default": 30
+        },
+        "periodSeconds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "How often to perform the probe",
+          "default": 10
+        },
+        "timeoutSeconds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "When the probe times out",
+          "default": 5
+        },
+        "failureThreshold": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Minimum consecutive failures for the probe to be considered failed",
+          "default": 3
+        },
+        "successThreshold": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Minimum consecutive successes for the probe to be considered successful",
+          "default": 1
+        }
+      }
+    },
+    "readinessProbe": {
+      "type": "object",
+      "description": "Readiness probe configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable readiness probe",
+          "default": true
+        },
+        "initialDelaySeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Initial delay before first probe",
+          "default": 5
+        },
+        "periodSeconds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "How often to perform the probe",
+          "default": 5
+        },
+        "timeoutSeconds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "When the probe times out",
+          "default": 3
+        },
+        "failureThreshold": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Minimum consecutive failures for the probe to be considered failed",
+          "default": 3
+        },
+        "successThreshold": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Minimum consecutive successes for the probe to be considered successful",
+          "default": 1
+        }
+      }
+    },
+    "startupProbe": {
+      "type": "object",
+      "description": "Startup probe configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable startup probe",
+          "default": false
+        },
+        "initialDelaySeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Initial delay before first probe",
+          "default": 30
+        },
+        "periodSeconds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "How often to perform the probe",
+          "default": 10
+        },
+        "timeoutSeconds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "When the probe times out",
+          "default": 1
+        },
+        "failureThreshold": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Minimum consecutive failures for the probe to be considered failed",
+          "default": 30
+        },
+        "successThreshold": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Minimum consecutive successes for the probe to be considered successful",
+          "default": 1
+        }
+      }
+    },
+    "env": {
+      "type": "object",
+      "description": "Additional environment variables to add to the container",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "auth": {
+      "type": "object",
+      "description": "Basic authentication configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable basic authentication",
+          "default": false
+        },
+        "username": {
+          "type": "string",
+          "description": "Username for basic authentication",
+          "default": "admin"
+        },
+        "password": {
+          "type": "string",
+          "description": "Password for basic authentication",
+          "default": "changeme"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
