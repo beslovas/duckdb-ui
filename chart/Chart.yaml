@@ -2,7 +2,7 @@ apiVersion: v2
 name: duckdb
 description: A Helm chart for DuckDB with UI support, configurable extensions, and persistent storage
 type: application
-version: 0.5.0
+version: 0.5.1
 appVersion: "1.3.2"
 keywords:
   - duckdb
