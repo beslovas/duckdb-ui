@@ -84,8 +84,6 @@ persistence:
 
 configMap:
   additionalConfig: |
-    SET s3_endpoint='minio.monitoring:9000';
-    SET s3_url_style='path';
     
 initContainers: []
 
