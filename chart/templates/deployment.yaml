@@ -15,7 +15,7 @@ spec:
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-        labels:
+      labels:
 {{- include "duckdb-ui.selectorLabels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
