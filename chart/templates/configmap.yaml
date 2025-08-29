@@ -23,7 +23,7 @@ data:
     {{- end }}
     
     {{- if .Values.configMap.additionalConfig }}
-    {{ .Values.configMap.additionalConfig }}
+    {{ .Values.configMap.additionalConfig  | nindent 4 }}
     {{- end }}
     
     .timer on
