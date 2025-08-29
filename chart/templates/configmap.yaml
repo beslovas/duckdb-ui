@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "duckdb.fullname" . }}
+  name: {{ include "duckdb-ui.fullname" . }}-config
   labels:
-    {{- include "duckdb.labels" . | nindent 4 }}
+    {{- include "duckdb-ui.labels" . | nindent 4 }}
 data:
   duckdbrc: |
     {{- if .Values.duckdb.extensions }}

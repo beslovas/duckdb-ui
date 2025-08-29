@@ -134,13 +134,13 @@ spec:
         - name: data
           {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ include "duckdb.fullname" . }}
+            claimName: {{ include "duckdb-ui.fullname" . }}
           {{- else }}
           emptyDir: {}
           {{- end }}
         - name: config
           configMap:
-            name: {{ include "duckdb.fullname" . }}
+            name: {{ include "duckdb-ui.fullname" . }}-config
 
       {{- with .Values.nodeSelector }}
       nodeSelector:
