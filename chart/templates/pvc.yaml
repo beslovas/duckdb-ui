@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "duckdb.fullname" . }}
+  name: {{ include "duckdb-ui.fullname" . }}
   labels:
-    {{- include "duckdb.labels" . | nindent 4 }}
+{{- include "duckdb-ui.labels" . | nindent 4 }}
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}

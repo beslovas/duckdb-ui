@@ -1,8 +1,8 @@
-{{- define "duckdb.name" -}}
+{{- define "duckdb-ui.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{- define "duckdb.fullname" -}}
+{{- define "duckdb-ui.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -15,36 +15,36 @@
 {{- end }}
 {{- end }}
 
-{{- define "duckdb.chart" -}}
+{{- define "duckdb-ui.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{- define "duckdb.labels" -}}
-helm.sh/chart: {{ include "duckdb.chart" . }}
-{{ include "duckdb.selectorLabels" . }}
+{{- define "duckdb-ui.labels" -}}
+helm.sh/chart: {{ include "duckdb-ui.chart" . }}
+{{ include "duckdb-ui.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
-{{- define "duckdb.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "duckdb.name" . }}
+{{- define "duckdb-ui.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "duckdb-ui.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{- define "duckdb.serviceAccountName" -}}
+{{- define "duckdb-ui.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "duckdb.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "duckdb-ui.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
 
-{{- define "duckdb.configMapName" -}}
-{{- printf "%s-config" (include "duckdb.fullname" .) }}
+{{- define "duckdb-ui.configMapName" -}}
+{{- printf "%s-config" (include "duckdb-ui.fullname" .) }}
 {{- end }}
 
-{{- define "duckdb.pvcName" -}}
-{{- printf "%s" (include "duckdb.fullname" .) }}
+{{- define "duckdb-ui.pvcName" -}}
+{{- printf "%s" (include "duckdb-ui.fullname" .) }}
 {{- end }}
