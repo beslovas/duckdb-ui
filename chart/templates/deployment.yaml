@@ -87,7 +87,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           volumeMounts:
-            - name: data
+            - name: duckdb
               mountPath: {{ .Values.persistence.path }}
               subPath: data
             - name: config
@@ -130,13 +130,6 @@ spec:
       {{- toYaml .Values.sidecars | nindent 8 }}
       {{- end }}
       volumes:
-        - name: data
-          {{- if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ include "duckdb-ui.fullname" . }}
-          {{- else }}
-          emptyDir: {}
-          {{- end }}
         - name: config
           configMap:
             name: {{ include "duckdb-ui.fullname" . }}-config
