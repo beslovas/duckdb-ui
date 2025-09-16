@@ -20,7 +20,7 @@ Enabled extensions:
 {{- end }}
 {{- else }}
 No extensions enabled
-{{- end }}</br>
+{{- end }}
 
 {{- if .Values.auth.enabled }}
 Authentication:

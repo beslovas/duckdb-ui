@@ -39,7 +39,3 @@ annotations:
   artifacthub.io/screenshots: |
     - name: DuckDB UI
       url: https://duckdb.org/images/duckdb_logo.png
-  artifacthub.io/signKey: |
-    -----BEGIN PGP PUBLIC KEY BLOCK-----
-    # Your PGP key here
-    -----END PGP PUBLIC KEY BLOCK-----

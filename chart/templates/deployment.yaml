@@ -92,11 +92,8 @@ spec:
             - name: config
               mountPath: /root/.duckdbrc
               subPath: duckdbrc
-            {{- if .Values.persistence.enabled }}
-            - name: data
+            - name: duckdb
               mountPath: /root/.duckdb
-              subPath: duckdb-config
-            {{- end }}
           env:
             - name: DUCKDB_DATABASE_PATH
               value: "{{ .Values.persistence.path }}/{{ .Values.duckdb.databaseFile }}"
@@ -141,6 +138,13 @@ spec:
         - name: config
           configMap:
             name: {{ include "duckdb-ui.fullname" . }}-config
+        - name: duckdb
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "duckdb-ui.fullname" . }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
 
       {{- with .Values.nodeSelector }}
       nodeSelector:
