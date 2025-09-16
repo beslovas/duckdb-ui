@@ -127,10 +127,10 @@ entries:
           url: https://duckdb.org/images/duckdb_logo.png
     apiVersion: v2
     appVersion: 1.3.2
-    created: "2025-09-16T13:45:31.55779847Z"
+    created: "2025-09-16T14:29:29.00647553Z"
     description: A Helm chart for DuckDB with UI support, configurable extensions,
       and persistent storage
-    digest: e965948ddad96a94b514ac3dd1d892dc0c5f17cabdc3f357bc36daf591db2ef5
+    digest: 6d7ba6f88193a1b08a54262c0eba47ef91ad39df9a5fce007579f93cc3445e98
     home: https://duckdb.org/
     keywords:
     - duckdb
@@ -198,4 +198,4 @@ entries:
     urls:
     - https://beslovas.github.io/duckdb-ui/duckdb-ui-0.5.1.tgz
     version: 0.5.1
-generated: "2025-09-16T13:45:31.556945539Z"
+generated: "2025-09-16T14:29:29.005594946Z"
