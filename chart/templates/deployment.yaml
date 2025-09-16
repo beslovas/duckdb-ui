@@ -89,11 +89,13 @@ spec:
           volumeMounts:
             - name: data
               mountPath: {{ .Values.persistence.path }}
+              subPath: data
             - name: config
               mountPath: /root/.duckdbrc
               subPath: duckdbrc
             - name: duckdb
               mountPath: /root/.duckdb
+              subPath: duckdb
           env:
             - name: DUCKDB_DATABASE_PATH
               value: "{{ .Values.persistence.path }}/{{ .Values.duckdb.databaseFile }}"
